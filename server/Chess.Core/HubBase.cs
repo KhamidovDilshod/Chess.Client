@@ -15,7 +15,7 @@ public class HubBase : Hub
     protected string GetConnectionId() => Context.ConnectionId;
 
     public override async Task OnConnectedAsync()
-    {
+    {   
         await Clients.All.SendAsync("onConnected", $"{GetConnectionId()}");
         _logger.LogInformation("Client with Id:'{clientId}' connected", GetConnectionId());
         await base.OnConnectedAsync();

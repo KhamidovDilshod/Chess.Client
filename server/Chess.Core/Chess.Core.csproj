@@ -9,5 +9,8 @@
         <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="8.0.1"/>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Manage\" />
+    </ItemGroup>
 
 </Project>
