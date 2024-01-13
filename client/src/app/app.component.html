@@ -1,10 +1,5 @@
-<div class="chessboard">
-  <div *ngFor="let row of chessBoard.squares; let rowIndex = index" class="chessboard-row">
-    <div *ngFor="let square of row; let colIndex = index" class="chessboard-square"
-         [class.white]="(rowIndex + colIndex) % 2 === 0" [class.black]="(rowIndex + colIndex) % 2 !== 0">
-      <div *ngIf="square.piece" class="chess-piece" [style.color]="square.piece.color">
-        <app-chess-piece [piece]="square.piece"></app-chess-piece>
-      </div>
-    </div>
-  </div>
+<div class="main">
+  <app-navbar></app-navbar>
+  <app-chess-board></app-chess-board>
 </div>
+

@@ -1,0 +1,7 @@
+<div class="board-main">
+  <div class="col" *ngFor="let col of chessBoard.squares">
+    <div class="row" *ngFor="let row of col">
+      <p>{{ row.piece|json }}</p>
+    </div>
+  </div>
+</div>

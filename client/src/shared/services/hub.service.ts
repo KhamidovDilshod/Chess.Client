@@ -1,5 +1,7 @@
-import {Injectable} from '@angular/core';
+import {Injectable, signal, WritableSignal} from '@angular/core';
 import * as signalR from "@microsoft/signalr"
+import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {retry} from "../utils";
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +14,19 @@ export class HubService {
   }
 
   public StartConnection() {
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:5000/hub")
-      .build();
+    retry(async () => {
+      this.hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("http://localhost:5000/hub")
+        .build();
+      await this.hubConnection.start();
+    }).then(r =>r)
+   }
 
-    this.hubConnection.start()
-      .then(r => console.log('client connected to server'))
-      .catch(err => console.log('Error while starting connection: ' + err))
-
-    this.hubConnection.on("onConnected", (res) => {
-      console.log(res)
-    })
+  public connectMethod(method: string): Observable<any> {
+    const messages: Subject<any> = new Subject<any>();
+    this.hubConnection?.on(method, (response) => {
+      messages.next(response)
+    });
+    return messages.asObservable();
   }
 }

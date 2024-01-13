@@ -1,0 +1,36 @@
+@import "../../../assets/css/variables.css";
+
+.nav {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  background: var(--main-nav-color);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  gap: 60px;
+}
+
+.right {
+  display: flex;
+  gap: 20px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+a.button {
+  font-size: 18px;
+  font-family: var(--main-font);
+  cursor: pointer;
+  color: white;
+  width: 10%;
+}
+
+.button:hover {
+  color: darkseagreen;
+}
