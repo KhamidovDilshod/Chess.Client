@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {ChessPiece, ChessType} from '../../../shared/chess'
 
 @Component({
   selector: 'app-chess-piece',
@@ -9,7 +8,7 @@ import {ChessPiece, ChessType} from '../../../shared/chess'
   styles: `./chess-piece.component.css`
 })
 export class ChessPieceComponent {
-  @Input() piece: ChessPiece | undefined;
+  @Input() piece: string | undefined;
 
   get pieceSymbol(): string {
     const pieceSymbols = {

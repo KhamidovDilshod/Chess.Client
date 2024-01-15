@@ -1,7 +1,8 @@
-import {Injectable, signal, WritableSignal} from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as signalR from "@microsoft/signalr"
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {last, Observable, Subject} from "rxjs";
 import {retry} from "../utils";
+import {HubConnectionState} from "@microsoft/signalr";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import {retry} from "../utils";
 export class HubService {
 
   private hubConnection: signalR.HubConnection | undefined;
+  private connectionState$ = new Subject<HubConnectionState>();
 
   constructor() {
   }
@@ -19,8 +21,10 @@ export class HubService {
         .withUrl("http://localhost:5000/hub")
         .build();
       await this.hubConnection.start();
-    }).then(r =>r)
-   }
+      // @ts-ignore
+    }).then(r => this.updateConnectionState(this.hubConnection.state))
+  }
+
 
   public connectMethod(method: string): Observable<any> {
     const messages: Subject<any> = new Subject<any>();
@@ -28,5 +32,13 @@ export class HubService {
       messages.next(response)
     });
     return messages.asObservable();
+  }
+
+  private updateConnectionState(connectionState: HubConnectionState) {
+    this.connectionState$.next(connectionState);
+  }
+
+  public getConnectionState$(): Observable<HubConnectionState> {
+    return this.connectionState$.asObservable();
   }
 }

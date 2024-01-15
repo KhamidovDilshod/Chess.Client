@@ -1,90 +1,138 @@
-export enum ChessType {
-  Pawn = "Pawn",
-  Knight = "Knight",
-  Bishop = "Bishop",
-  Rook = "Rook",
-  Queen = "Queen",
-  King = "King"
+export interface Piece {
+  type: string;
+  board: Cell[][];
+  color: 'white' | 'black';
+
+  validMove(row: number, col: number): boolean;
 }
 
-export class ChessPiece {
-  constructor(public type: ChessType, public color: string) {
+export interface Cell {
+  piece?: Piece;
+}
+
+export function createBoard(): Cell[][] {
+  const board: Cell[][] = [];
+  for (let i = 0; i < 8; i++) {
+    board.push([]);
+    for (let j = 0; j < 8; j++) {
+      const cell: Cell = {};
+      cell.piece = getStartingPiece(i, j, board);
+      board[i].push(cell)
+    }
   }
+  return board;
 }
 
-export class ChessSquare {
-  piece: ChessPiece | null = null;
+export function getStartingPiece(row: number, col: number, board: Cell[][]) {
+  const color = row <= 1 ? 'black' : 'white';
 
-  constructor() {
+  if (row === 1 || row === 6) {
+    return pawn(board, color);
   }
+  if (row == 0 || row == 7) {
+    switch (col) {
+      case 0:
+      case 7:
+        return rook(board, color);
+      case 1:
+      case 6:
+        return knight(board, color);
+      case 2:
+      case 5:
+        return bishop(board, color);
+      case 3:
+        return row == 0 ?
+          queen(board, color) : king(board, color);
+      case 4:
+        return row == 0 ?
+          king(board, color) : queen(board, color);
+    }
+  }
+  return undefined;
 }
 
-export class ChessBoard {
-  public squares: ChessSquare[][] = [];
+export const displayPieces: Record<string, string> = {
+  'blackPawn': '♟︎',
+  'blackKnight': '♞︎',
+  'blackBishop': '♝︎',
+  'blackRook': '♜︎',
+  'blackQueen': '♛︎',
+  'blackKing': '♚︎',
+  'whitePawn': '♙︎',
+  'whiteKnight': '♘︎',
+  'whiteBishop': '♗︎',
+  'whiteRook': '♖︎',
+  'whiteQueen': '♕︎',
+  'whiteKing': '♔︎',
+}
 
-  constructor() {
-    for (let row = 0; row < 8; row++) {
-      this.squares[row] = [];
-      for (let col = 0; col < 8; col++) {
-        this.squares[row][col] = new ChessSquare();
+export function pawn(board: Cell[][], color: 'white' | 'black'): Piece {
+  return {
+    type: 'Pawn',
+    board: board,
+    color: color,
+    validMove(row: number, col: number): boolean {
+      //TODO implement validation logic for each chess piece
+      if (row === 1 || row === 6) {
+        const moveDirection = color == 'white' ? 1 : -1;
+        return false;
       }
+      return false;
     }
-    this.initializeBoard();
-  }
-
-  private initializeBoard() {
-    // Initial setup for a standard chessboard
-    this.placePiece(0, 0, new ChessPiece(ChessType.Rook, 'white'));
-    this.placePiece(0, 1, new ChessPiece(ChessType.Knight, 'white'));
-    this.placePiece(0, 2, new ChessPiece(ChessType.Bishop, 'white'));
-    this.placePiece(0, 3, new ChessPiece(ChessType.Queen, 'white'));
-    this.placePiece(0, 4, new ChessPiece(ChessType.King, 'white'));
-    this.placePiece(0, 5, new ChessPiece(ChessType.Bishop, 'white'));
-    this.placePiece(0, 6, new ChessPiece(ChessType.Knight, 'white'));
-    this.placePiece(0, 7, new ChessPiece(ChessType.Rook, 'white'));
-
-    for (let col = 0; col < 8; col++) {
-      this.placePiece(1, col, new ChessPiece(ChessType.Pawn, 'white'));
-    }
-
-    for (let row = 2; row < 6; row++) {
-      for (let col = 0; col < 8; col++) {
-        this.squares[row][col] = new ChessSquare();
-      }
-    }
-
-    for (let col = 0; col < 8; col++) {
-      this.placePiece(6, col, new ChessPiece(ChessType.Pawn, 'black'));
-    }
-
-    this.placePiece(7, 0, new ChessPiece(ChessType.Rook, 'black'));
-    this.placePiece(7, 1, new ChessPiece(ChessType.Knight, 'black'));
-    this.placePiece(7, 2, new ChessPiece(ChessType.Bishop, 'black'));
-    this.placePiece(7, 3, new ChessPiece(ChessType.Queen, 'black'));
-    this.placePiece(7, 4, new ChessPiece(ChessType.King, 'black'));
-    this.placePiece(7, 5, new ChessPiece(ChessType.Bishop, 'black'));
-    this.placePiece(7, 6, new ChessPiece(ChessType.Knight, 'black'));
-    this.placePiece(7, 7, new ChessPiece(ChessType.Rook, 'black'));
-  }
-
-  private placePiece(row: number, col: number, piece: ChessPiece) {
-    this.squares[row][col] = new ChessSquare();
-    this.squares[row][col].piece = piece;
   }
 }
 
-export class ChessPlayer {
-  capturedPieces: ChessPiece[] = [];
-  moveHistory: string[] = [];
-
-  constructor(public name: string, public color: string) {
+export function rook(board: Cell[][], color: 'white' | 'black'): Piece {
+  return {
+    type: 'Rook',
+    board: board,
+    color: color, validMove(row: number, col: number): boolean {
+      return false;
+    }
   }
+}
 
-  move(move: string) {
-    this.moveHistory.push(move);
+export function knight(board: Cell[][], color: 'white' | 'black'): Piece {
+  return {
+    type: 'Knight',
+    board: board,
+    color: color, validMove(row: number, col: number): boolean {
+      return false;
+    }
   }
+}
 
-  capturePiece(piece: ChessPiece) {
-    this.capturedPieces.push(piece);
+export function queen(board: Cell[][], color: 'white' | 'black'): Piece {
+  return {
+    type: 'Queen',
+    board: board,
+    color: color, validMove(row: number, col: number): boolean {
+      return false;
+    }
   }
+}
+
+export function king(board: Cell[][], color: 'white' | 'black'): Piece {
+  return {
+    type: 'King',
+    board: board,
+    color: color, validMove(row: number, col: number): boolean {
+      return false;
+    }
+  }
+}
+
+export function bishop(board: Cell[][], color: 'white' | 'black'): Piece {
+  return {
+    type: 'Bishop',
+    board: board,
+    color: color, validMove(row: number, col: number): boolean {
+      return false;
+    }
+  }
+}
+
+export interface Position {
+  row: number;
+  col: number
 }

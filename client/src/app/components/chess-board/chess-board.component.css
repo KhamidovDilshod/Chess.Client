@@ -1,5 +1,42 @@
-.board-main {
+body {
+  background-color: var(--main-nav-color);
   width: 100%;
   height: 100%;
-  background-color: #0E0E0E;
+}
+
+.board-main {
+  max-width: 600px;
+  margin: 40px auto auto;
+  background: azure;
+}
+
+table {
+  /*background-color: white;*/
+  border-collapse: collapse;
+  width: 100%;
+  aspect-ratio: 1;
+  font-size: 26px;
+}
+
+td {
+  border: 4px solid black;
+  width: 35px;
+  height: 35px;
+  vertical-align: middle;
+  text-align: center;
+  background: darkgoldenrod;
+}
+
+td.black {
+  color: white;
+  background: darkgreen;
+}
+
+td span {
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.piece {
+  cursor: grab;
 }

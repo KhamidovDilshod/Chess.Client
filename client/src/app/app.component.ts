@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {ChessBoard} from '../shared/chess'
 import {ChessPieceComponent} from "./components/chess-piece/chess-piece.component";
 import {HubService} from "../shared/services/hub.service";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {ChessBoardComponent} from "./components/chess-board/chess-board.component";
+import {HubConnectionState} from "@microsoft/signalr";
 
 @Component({
   selector: 'app-root',
@@ -15,11 +15,9 @@ import {ChessBoardComponent} from "./components/chess-board/chess-board.componen
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  public chessBoard: ChessBoard = new ChessBoard();
 
-  constructor(private hubService: HubService) {
+  constructor(public hubService: HubService) {
     this.hubService.StartConnection();
-
     this.hubService.connectMethod("notification").subscribe(msg => console.log(msg))
   }
 }

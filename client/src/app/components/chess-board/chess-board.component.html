@@ -1,7 +1,14 @@
 <div class="board-main">
-  <div class="col" *ngFor="let col of chessBoard.squares">
-    <div class="row" *ngFor="let row of col">
-      <p>{{ row.piece|json }}</p>
-    </div>
-  </div>
+  <table cdkDropListGroup>
+    <tr *ngFor="let row of [0,1,2,3,4,5,6,7]">
+      <td *ngFor="let col of [0,1,2,3,4,5,6,7]"
+          [style.color]="getPieceColor(row,col)"
+          [class.black]="(row % 2 + col % 2) == 1"
+          cdkDropList
+          (cdkDropListDropped)="move($event)"
+          [cdkDropListData]="{row:row,col:col}">
+        <div class="piece" cdkDrag [cdkDragData]="{row,col}">{{ displayPieces(row, col) }}</div>
+      </td>
+    </tr>
+  </table>
 </div>
