@@ -25,6 +25,6 @@ export class King extends Piece {
     }
 
     public set hasMoved(_) {
-        this.hasMoved = true;
+        this._hasMoved = true;
     }
 }
