@@ -2,8 +2,6 @@
     display: flex;
     justify-content: center;
     flex-direction: column-reverse;
-    width: 480px;
-    height: 480px;
 }
 
 .rotated {
@@ -22,7 +20,6 @@
     height: 60px;
     width: 60px;
     cursor: pointer;
-    border: 1px solid blue;
     background-color: white;
 }
 
@@ -51,11 +48,11 @@
 }
 
 .dark {
-    background-color: #779AAF
+    background-color: #182d38
 }
 
 .light {
-    background-color: #D9E4E8;
+    background-color: #afa0a0;
 }
 
 .piece {

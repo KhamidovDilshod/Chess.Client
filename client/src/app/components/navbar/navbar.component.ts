@@ -19,12 +19,12 @@ export class NavbarComponent {
   protected readonly Icon = Icon;
   isOnline: boolean = false;
 
-  constructor(public hubService: HubService) {
-    this.hubService.getConnectionState$()
-      .subscribe(state => {
-        this.isOnline = state == HubConnectionState.Connected
-        console.log(state);
-      }
-    )
+  constructor() {
+    // this.hubService.getConnectionState$()
+    //   .subscribe(state => {
+    //     this.isOnline = state == HubConnectionState.Connected
+    //     console.log(state);
+    //   }
+    // )
   }
 }
