@@ -1,4 +1,11 @@
-.main{
+.main {
   background-color: black;
   height: 100%;
+}
+
+.chess {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 10px;
 }

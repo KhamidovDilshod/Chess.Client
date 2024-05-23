@@ -14,6 +14,10 @@
   gap: 60px;
 }
 
+.right, .left {
+  margin: 20px;
+}
+
 .right {
   display: flex;
   gap: 20px;
