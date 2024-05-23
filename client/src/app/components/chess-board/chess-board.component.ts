@@ -10,7 +10,8 @@ import {
   SafeSquares,
   SelectedSquare
 } from "../../../shared/chess-logic/model";
-import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {JsonPipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {Piece} from "../../../shared/chess-logic/pieces/piece";
 
 @Component({
   selector: 'app-chess-board',
@@ -19,7 +20,8 @@ import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
     NgForOf,
     NgClass,
     NgIf,
-    NgOptimizedImage
+    NgOptimizedImage,
+    JsonPipe
   ],
   templateUrl: './chess-board.component.html',
   styleUrl: './chess-board.component.css'
@@ -43,6 +45,10 @@ export class ChessBoardComponent {
 
   public isSquareDark(x: number, y: number): boolean {
     return ChessBoard.isSquareDark(x, y);
+  }
+
+  public get attackedPieces(): Piece[] {
+    return this.chessBoard.attackedPieces;
   }
 
   public isSquareSelected(x: number, y: number): boolean {

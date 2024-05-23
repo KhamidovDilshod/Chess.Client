@@ -4,22 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e035dcec-0245-4f91-855a-8cc7b7e6ff84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/assets/css/variables.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/assets/icons/dot.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/assets/icons/login.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/shared/models/icon.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/shared/utils.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/Chess.Core/Manage/ConnectionMapping.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/app/app.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/app.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/shared/chess.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/shared/chess.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/shared/services/hub.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/shared/services/hub.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/Chess.Core/Chess.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/server/Chess.Core/Chess.Core.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/Chess.Core/HubBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/server/Chess.Core/HubBase.cs" afterDir="false" />
+    <list default="true" id="e035dcec-0245-4f91-855a-8cc7b7e6ff84" name="Changes" comment="style fix">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/app/components/chess-board/chess-board.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/components/chess-board/chess-board.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/app/components/chess-board/chess-board.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/components/chess-board/chess-board.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/app/components/chess-board/chess-board.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/components/chess-board/chess-board.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/shared/chess-logic/chess-board.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/shared/chess-logic/chess-board.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,22 +33,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/RiderProjects/Chess/client/src/assets/icons",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.start.executor": "Run",
-    "ts.external.directory.path": "D:\\RiderProjects\\Chess\\client\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/RiderProjects/Chess/client/src/assets/icons&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.start.executor&quot;: &quot;Run&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\RiderProjects\\Chess\\client\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\RiderProjects\Chess\client\src\assets\icons" />
@@ -93,8 +83,67 @@
       <option name="presentableId" value="Default" />
       <updated>1705065079298</updated>
       <workItem from="1705065080941" duration="612000" />
-      <workItem from="1705143607957" duration="17339000" />
+      <workItem from="1705143607957" duration="17473000" />
+      <workItem from="1705206732805" duration="17325000" />
+      <workItem from="1705467658791" duration="62000" />
+      <workItem from="1706598558778" duration="305000" />
+      <workItem from="1707279043447" duration="13000" />
+      <workItem from="1715059711869" duration="688000" />
+      <workItem from="1715065529989" duration="9703000" />
+      <workItem from="1715169013494" duration="174000" />
+      <workItem from="1715184719823" duration="4802000" />
+      <workItem from="1715314832661" duration="2195000" />
+      <workItem from="1716272481857" duration="24936000" />
     </task>
+    <task id="LOCAL-00001" summary="blank chess models created">
+      <option name="closed" value="true" />
+      <created>1705180661103</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1705180661103</updated>
+    </task>
+    <task id="LOCAL-00002" summary="main chess board created with basic drag drop">
+      <option name="closed" value="true" />
+      <created>1705291865459</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1705291865459</updated>
+    </task>
+    <task id="LOCAL-00003" summary="basic move added for piece">
+      <option name="closed" value="true" />
+      <created>1715081240938</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1715081240939</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fixed recursive call for hasMoved property">
+      <option name="closed" value="true" />
+      <created>1715087040478</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1715087040478</updated>
+    </task>
+    <task id="LOCAL-00005" summary="moved chess board to center,&#10;fixed bug when moves to attackingpiece,&#10;added lastMove logic &amp;&amp; style and minor optimization">
+      <option name="closed" value="true" />
+      <created>1716442679100</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1716442679100</updated>
+    </task>
+    <task id="LOCAL-00006" summary="style fix">
+      <option name="closed" value="true" />
+      <created>1716443014408</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1716443014408</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -102,5 +151,14 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="angular.json" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="blank chess models created" />
+    <MESSAGE value="main chess board created with basic drag drop" />
+    <MESSAGE value="basic move added for piece" />
+    <MESSAGE value="fixed recursive call for hasMoved property" />
+    <MESSAGE value="moved chess board to center,&#10;fixed bug when moves to attackingpiece,&#10;added lastMove logic &amp;&amp; style and minor optimization" />
+    <MESSAGE value="style fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="style fix" />
   </component>
 </project>

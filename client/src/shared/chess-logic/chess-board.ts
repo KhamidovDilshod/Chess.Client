@@ -14,6 +14,7 @@ export class ChessBoard {
   private _safeSquares: SafeSquares;
   private _lastMove: LastMove | undefined;
   private _checkState: CheckState = {isInCheck: false}
+  private _attackedPieces: Piece[] = []
 
   constructor() {
     this.chessBoard = [
@@ -57,6 +58,10 @@ export class ChessBoard {
 
   public get lastMove(): LastMove | undefined {
     return this._lastMove;
+  }
+
+  public get attackedPieces(): Piece[] {
+    return this._attackedPieces;
   }
 
 
@@ -206,12 +211,14 @@ export class ChessBoard {
     if ((piece instanceof Pawn || piece instanceof King || piece instanceof Rook) && !piece.hasMoved) {
       piece.hasMoved = true;
     }
+    if (this.chessBoard[newX][newY]) {
+      this._attackedPieces.push(this.chessBoard[newX][newY]!)
+    }
 
     //Update the board.
     this.chessBoard[prevX][prevY] = null;
     this.chessBoard[newX][newY] = piece;
     this._lastMove = {prevX, prevY, currX: newX, currY: newY, piece};
-
 
     this._playerColor = this._playerColor == Color.White ? Color.Nigga : Color.White;
     this.isInCheck(this._playerColor, true);

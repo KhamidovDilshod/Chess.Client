@@ -4,6 +4,14 @@
   flex-direction: column-reverse;
 }
 
+.board {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 20vw;
+
+}
+
 .rotated {
   transform: rotate(180deg);
 }
@@ -11,6 +19,15 @@
 .row {
   display: flex;
   flex-direction: row;
+}
+
+.attacked {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  background-color: #182d38;
+  align-items: center;
+  justify-content: center;
 }
 
 .square {
