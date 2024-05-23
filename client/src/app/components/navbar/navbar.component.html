@@ -1,17 +1,29 @@
 <div class="nav">
   <div class="left">
-    <a class="button">Home</a>
+    <a class="button">Play</a>
     <!--    <a class="button">Courses</a>-->
-    <a class="button">Training</a>
+    <a class="button">Join</a>
     <!--    <a class="button">Database</a>-->
   </div>
   <div class="spacer"></div>
   <div class="right">
-    <p class="username button">{{ authService.identityClaims['name'] }}</p>
+    <p class="username button"></p>
     <app-svg-icon path="assets/icons/login.svg" [color]="Icon.green" (click)="authService.logout()"></app-svg-icon>
     <ng-container *ngIf="authService.isLoggedIn">
-      <img class="logo" [src]="authService.identityClaims['picture']" alt="">
     </ng-container>
+
+    <a nz-dropdown [nzDropdownMenu]="menu">
+      {{ authService.identityClaims['name'] }}
+      <img class="logo" [src]="authService.identityClaims['picture']" alt="">
+    </a>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item>1st menu item</li>
+        <li nz-menu-item>2nd menu item</li>
+        <li nz-menu-item>3rd menu item</li>
+        <li (click)="authService.logout()" nz-menu-item nzDanger>Logout</li>
+      </ul>
+    </nz-dropdown-menu>
     <app-svg-icon *ngIf="!authService.isLoggedIn" path="assets/icons/dot.svg"
                   [color]="authService.isLoggedIn ? Icon.green:Icon.customRed"></app-svg-icon>
   </div>

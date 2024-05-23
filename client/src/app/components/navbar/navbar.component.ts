@@ -6,6 +6,9 @@ import {HubService} from "../../../shared/services/hub.service";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {AuthService} from "../../auth/auth.service";
 import {authConfig} from "../../app.config";
+import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
+import {NzIconDirective} from "ng-zorro-antd/icon";
+import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +16,12 @@ import {authConfig} from "../../app.config";
   imports: [
     SvgIconComponent,
     AsyncPipe,
-    NgIf
+    NgIf,
+    NzDropDownDirective,
+    NzIconDirective,
+    NzDropdownMenuComponent,
+    NzMenuItemComponent,
+    NzMenuDirective
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
