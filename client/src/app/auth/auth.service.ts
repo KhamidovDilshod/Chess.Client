@@ -15,23 +15,24 @@ export class AuthService {
   initializeOAuth() {
     this.oauthService.configure(authConfig);
     this.oauthService.setupAutomaticSilentRefresh();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.oauthService.loadDiscoveryDocumentAndTryLogin().finally();
   }
 
   login() {
     this.oauthService.initImplicitFlow()
-    this.router.navigate(['main'])
+    this.router.navigate(['main']).finally();
   }
 
   logout() {
-    this.router.navigate(['login'])
+    this.router.navigate(['login']).finally();
     this.oauthService.revokeTokenAndLogout().finally();
     this.oauthService.logOut();
   }
 
   get identityClaims() {
     let claims = this.oauthService.getIdentityClaims();
-    localStorage.setItem('user', JSON.stringify(claims))
+    if (!localStorage.getItem('user'))
+      localStorage.setItem('user', JSON.stringify(claims))
     return claims;
   }
 
