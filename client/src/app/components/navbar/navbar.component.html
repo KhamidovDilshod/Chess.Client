@@ -1,13 +1,18 @@
 <div class="nav">
   <div class="left">
     <a class="button">Home</a>
-<!--    <a class="button">Courses</a>-->
+    <!--    <a class="button">Courses</a>-->
     <a class="button">Training</a>
-<!--    <a class="button">Database</a>-->
+    <!--    <a class="button">Database</a>-->
   </div>
   <div class="spacer"></div>
   <div class="right">
-    <app-svg-icon path="assets/icons/dot.svg" [color]="isOnline ? Icon.green:Icon.customRed"></app-svg-icon>
-    <app-svg-icon path="assets/icons/login.svg" [color]="Icon.customRed"></app-svg-icon>
+    <p class="username button">{{ authService.identityClaims['name'] }}</p>
+    <app-svg-icon path="assets/icons/login.svg" [color]="Icon.green" (click)="authService.logout()"></app-svg-icon>
+    <ng-container *ngIf="authService.isLoggedIn">
+      <img class="logo" [src]="authService.identityClaims['picture']" alt="">
+    </ng-container>
+    <app-svg-icon *ngIf="!authService.isLoggedIn" path="assets/icons/dot.svg"
+                  [color]="authService.isLoggedIn ? Icon.green:Icon.customRed"></app-svg-icon>
   </div>
 </div>

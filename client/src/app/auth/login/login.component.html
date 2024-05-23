@@ -1,0 +1,11 @@
+<div class="login-container">
+  <div *ngIf="authService.isLoggedIn; else loginTemplate">
+    <h1>Welcome, {{ authService.identityClaims['name'] }}</h1>
+    <button (click)="authService.logout()">Logout</button>
+  </div>
+  <ng-template #loginTemplate>
+    <h2>Please log in to continue</h2>
+    <button class="google-login-button" (click)="authService.login()">Login with Google</button>
+  </ng-template>
+</div>
+`,

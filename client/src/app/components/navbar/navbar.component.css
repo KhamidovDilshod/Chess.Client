@@ -16,10 +16,11 @@
 
 .right, .left {
   margin: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .right {
-  display: flex;
   gap: 20px;
 }
 
@@ -37,4 +38,16 @@ a.button {
 
 .button:hover {
   color: darkseagreen;
+}
+
+.username {
+  color: white;
+  font-family: var(--main-font);
+  font-size: 15px;
+}
+
+.logo {
+  max-width: 35px;
+  max-height: 35px;
+  border-radius: 50%
 }

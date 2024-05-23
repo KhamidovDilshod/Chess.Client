@@ -37,7 +37,7 @@ export class SvgIconComponent {
         this._color = `#FE0101`;
         break
       default:
-        this._color = Icon[color];
+        this._color = `darkseagreen`;
 
     }
   }

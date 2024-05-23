@@ -3,14 +3,17 @@ import {SvgIconComponent} from "../../../shared/components/svg-icon/svg-icon.com
 import {Icon} from "../../../shared/models/icon";
 import {HubConnectionState} from "@microsoft/signalr";
 import {HubService} from "../../../shared/services/hub.service";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgIf} from "@angular/common";
+import {AuthService} from "../../auth/auth.service";
+import {authConfig} from "../../app.config";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     SvgIconComponent,
-    AsyncPipe
+    AsyncPipe,
+    NgIf
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -19,7 +22,7 @@ export class NavbarComponent {
   protected readonly Icon = Icon;
   isOnline: boolean = false;
 
-  constructor() {
+  constructor(public authService: AuthService) {
     // this.hubService.getConnectionState$()
     //   .subscribe(state => {
     //     this.isOnline = state == HubConnectionState.Connected
@@ -27,4 +30,6 @@ export class NavbarComponent {
     //   }
     // )
   }
+
+  protected readonly authConfig = authConfig;
 }
