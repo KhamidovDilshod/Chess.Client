@@ -35,6 +35,9 @@ export class ChessBoardComponent {
   private lastMove: LastMove | undefined = this.chessBoard.lastMove;
   private checkState: CheckState = this.chessBoard.checkState;
 
+  constructor() {
+    console.log(this.chessBoardView);
+  }
   public get playerColor(): Color {
     return this.chessBoard.playerColor;
   }

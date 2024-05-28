@@ -1,4 +1,4 @@
-import {ApplicationConfig, importProvidersFrom} from '@angular/core';
+import {ApplicationConfig, importProvidersFrom, InjectionToken} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
@@ -12,6 +12,14 @@ import en from '@angular/common/locales/en';
 import {FormsModule} from '@angular/forms';
 
 registerLocaleData(en);
+export const serverConfig = new InjectionToken<AppConfig>('SERVER_CONFIG')
+export const ServerConfig: AppConfig = {
+  url: 'http://localhost:5000'
+}
+
+export interface AppConfig {
+  url: string
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +30,8 @@ export const appConfig: ApplicationConfig = {
     provideNzI18n(en_US),
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
-    provideHttpClient()
+    provideHttpClient(),
+    {provide: serverConfig, useValue: ServerConfig}
   ]
 };
 
@@ -34,3 +43,4 @@ export const authConfig: AuthConfig = {
   responseType: 'token id_token',
   strictDiscoveryDocumentValidation: false,
 };
+
