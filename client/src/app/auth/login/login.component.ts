@@ -20,5 +20,6 @@ export class LoginComponent implements OnInit {
    authService = inject(AuthService)
 
   ngOnInit(): void {
+    console.log(this.authService.isLoggedIn);
   }
 }

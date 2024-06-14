@@ -16,7 +16,7 @@ import {ChessBoardComponent} from "./components/chess-board/chess-board.componen
 export class AppComponent {
 
   constructor(public hubService: HubService) {
-    // this.hubService.StartConnection();
-    // this.hubService.connectMethod("notification").subscribe(msg => console.log(msg))
+    this.hubService.startConnection();
+    this.hubService.connectMethod("notification").subscribe()
   }
 }

@@ -6,9 +6,11 @@ import {Bishop} from "./pieces/bishop";
 import {Queen} from "./pieces/queen";
 import {Pawn} from "./pieces/pawn";
 import {King} from "./pieces/king";
+import {GameMode} from "../models/game";
+import {loadBoard} from "../utils";
 
 export class ChessBoard {
-  private readonly chessBoard: (Piece | null)[][];
+  protected chessBoard: (Piece | null)[][];
   private _playerColor = Color.White;
   private readonly chessBoardSize: number = 8;
   private _safeSquares: SafeSquares;
@@ -16,29 +18,8 @@ export class ChessBoard {
   private _checkState: CheckState = {isInCheck: false}
   private _attackedPieces: Piece[] = []
 
-  constructor() {
-    this.chessBoard = [
-      [
-        new Rook(Color.White), new Knight(Color.White), new Bishop(Color.White), new Queen(Color.White),
-        new King(Color.White), new Bishop(Color.White), new Knight(Color.White), new Rook(Color.White)
-      ],
-      [
-        new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White),
-        new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White)
-      ],
-      [null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null],
-      [null, null, null, null, null, null, null, null],
-      [
-        new Pawn(Color.Nigga), new Pawn(Color.Nigga), new Pawn(Color.Nigga), new Pawn(Color.Nigga),
-        new Pawn(Color.Nigga), new Pawn(Color.Nigga), new Pawn(Color.Nigga), new Pawn(Color.Nigga)
-      ],
-      [
-        new Rook(Color.Nigga), new Knight(Color.Nigga), new Bishop(Color.Nigga), new Queen(Color.Nigga),
-        new King(Color.Nigga), new Bishop(Color.Nigga), new Knight(Color.Nigga), new Rook(Color.Nigga)
-      ],
-    ];
+  constructor(mode: GameMode = GameMode.Offline, boardView: (FENChar | null)[][] = []) {
+    this.chessBoard = loadBoard(mode, boardView)
     this._safeSquares = this.findSafeSquare();
   }
 
@@ -225,5 +206,4 @@ export class ChessBoard {
     this._safeSquares = this.findSafeSquare();
 
   }
-
 }

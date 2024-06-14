@@ -1,0 +1,9 @@
+<ng-container *ngIf="board|async as board else loading">
+  <chess-board [mode]="GameMode.Online" [state]="board"></chess-board>
+</ng-container>
+
+<ng-template #loading>
+  <div class="loading">
+    <nz-spin nzSimple></nz-spin>
+  </div>
+</ng-template>

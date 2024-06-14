@@ -15,7 +15,7 @@ export class HubService {
   constructor() {
   }
 
-  public StartConnection() {
+  public startConnection() {
     retry(async () => {
       this.hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("http://localhost:5000/hub")
