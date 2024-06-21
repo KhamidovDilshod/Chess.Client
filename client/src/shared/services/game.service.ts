@@ -18,4 +18,8 @@ export class GameService {
   tryLoadBoard(id: string): Observable<Board> {
     return this.httpClient.get<Board>(`${this.serverConfig.url}/game/${id}/board`)
   }
+
+  join(): Observable<Game> {
+    return this.httpClient.post<Game>(`${this.serverConfig.url}/game/init`, {})
+  }
 }

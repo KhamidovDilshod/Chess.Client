@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {SvgIconComponent} from "../../../shared/components/svg-icon/svg-icon.component";
 import {Icon} from "../../../shared/models/icon";
 import {HubConnectionState} from "@microsoft/signalr";
@@ -9,6 +9,9 @@ import {authConfig} from "../../app.config";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
+import {GameService} from "../../../shared/services/game.service";
+import {switchMap} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -29,6 +32,8 @@ import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
 export class NavbarComponent {
   protected readonly Icon = Icon;
   isOnline: boolean = false;
+  gameService = inject(GameService)
+  router = inject(Router);
 
   constructor(public authService: AuthService) {
     // this.hubService.getConnectionState$()
@@ -40,4 +45,9 @@ export class NavbarComponent {
   }
 
   protected readonly authConfig = authConfig;
+
+  join() {
+    this.gameService.join()
+      .subscribe(res => this.router.navigate([`game/${res.id}`]).finally())
+  }
 }
