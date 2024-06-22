@@ -11,14 +11,15 @@ import {loadBoard} from "../utils";
 
 export class ChessBoard {
   protected chessBoard: (Piece | null)[][];
-  private _playerColor = Color.White;
+  private _playerColor;
   private readonly chessBoardSize: number = 8;
   private _safeSquares: SafeSquares;
   private _lastMove: LastMove | undefined;
   private _checkState: CheckState = {isInCheck: false}
   private _attackedPieces: Piece[] = []
 
-  constructor(mode: GameMode = GameMode.Offline, boardView: (FENChar | null)[][] = []) {
+  constructor(mode: GameMode = GameMode.Offline, color: Color, boardView: (FENChar | null)[][] = []) {
+    this._playerColor = color;
     this.chessBoard = loadBoard(mode, boardView)
     this._safeSquares = this.findSafeSquare();
   }

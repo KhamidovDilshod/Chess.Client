@@ -2,7 +2,7 @@ import {inject, Injectable} from "@angular/core";
 import {serverConfig} from "../../app/app.config";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Board, Game} from "../models/game";
+import {Board, Game, Player} from "../models/game";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class GameService {
     return this.httpClient.get<Board>(`${this.serverConfig.url}/game/${id}/board`)
   }
 
-  join(): Observable<Game> {
-    return this.httpClient.post<Game>(`${this.serverConfig.url}/game/init`, {})
+  join(players: Player[]): Observable<Game> {
+    return this.httpClient.post<Game>(`${this.serverConfig.url}/game/init`, {...players})
   }
 }

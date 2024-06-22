@@ -57,13 +57,19 @@ export class AuthService {
 
   private getOrCreateUser(user: GoogleUser) {
     const newUser: User = {
+      id: '',
       username: user?.email.split('@')[0],
       logoUrl: user?.picture,
       email: user?.email
     }
     this.httpClient.post(`${this.serverConfig.url}/users`, newUser).subscribe(res => {
-      this.router.navigate(['main']);
-
+      this.router.navigate(['game']);
+      localStorage.setItem('user', JSON.stringify(res))
     })
   }
+
+  public getCurrentUser(): User {
+    return JSON.parse(localStorage.getItem('user')!) as User;
+  }
+
 }

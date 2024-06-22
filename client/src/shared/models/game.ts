@@ -8,7 +8,7 @@ export interface Game {
 
 export interface Player {
   userId: string;
-  gameId: string;
+  gameId: string | null;
   color: Color
 }
 

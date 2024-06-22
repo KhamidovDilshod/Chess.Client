@@ -8,7 +8,7 @@ import {Queen} from "./chess-logic/pieces/queen";
 import {King} from "./chess-logic/pieces/king";
 import {Pawn} from "./chess-logic/pieces/pawn";
 
-export async function retry<T>(action: () => Promise<T>, maxAttempts: number = 10, delayMs: number = 3000) {
+export async function retry<T>(action: () => Promise<T>, maxAttempts: number = 10, delayMs: number = 300) {
   let attempts: number = 0;
   while (attempts < maxAttempts) {
     try {
@@ -18,7 +18,7 @@ export async function retry<T>(action: () => Promise<T>, maxAttempts: number = 1
       if (attempts < maxAttempts) {
         await new Promise((resolve) => setTimeout(resolve, delayMs));
       } else {
-        throw new Error("Error while performing operation");
+        throw new Error("Retry limit reached");
       }
     }
   }

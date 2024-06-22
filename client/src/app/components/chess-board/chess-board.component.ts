@@ -33,6 +33,7 @@ import {NzSpinComponent} from "ng-zorro-antd/spin";
 export class ChessBoardComponent {
   private _chessBoard!: ChessBoard;
   private _mode: GameMode | null = null;
+  private _color!: Color;
   public pieceImagePaths = pieceImagePaths;
   private selectedSquare: SelectedSquare = {piece: null};
   private pieceSafeSquares: Coords[] = [];
@@ -43,13 +44,18 @@ export class ChessBoardComponent {
   constructor(private cdr: ChangeDetectorRef) {
   }
 
+  @Input() set color(value: Color) {
+    this._color = value;
+  }
+
   @Input() set mode(value: GameMode) {
     this._mode = value;
   }
 
   @Input() set state(value: any) {
     if (this._mode != null) {
-      this._chessBoard = new ChessBoard(this._mode, value);
+      this._chessBoard = new ChessBoard(this._mode, this._color, value);
+      console.log(this.color);
       this.cdr.detectChanges();
       this.isReady = true;
       this.checkState = this._chessBoard.checkState;

@@ -1,5 +1,5 @@
 <ng-container *ngIf="board|async as board else loading">
-  <chess-board [mode]="GameMode.Online" [state]="board"></chess-board>
+  <chess-board [mode]="GameMode.Online" [color]="color" [state]="board"></chess-board>
 </ng-container>
 
 <ng-template #loading>

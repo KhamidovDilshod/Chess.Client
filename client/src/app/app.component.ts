@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
 
 import {HubService} from "../shared/services/hub.service";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {ChessBoardComponent} from "./components/chess-board/chess-board.component";
+import {AuthService} from "./auth/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import {ChessBoardComponent} from "./components/chess-board/chess-board.componen
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  authService = inject(AuthService);
 
   constructor(public hubService: HubService) {
     this.hubService.startConnection();
