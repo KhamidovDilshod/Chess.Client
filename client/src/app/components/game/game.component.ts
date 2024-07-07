@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, inject, OnInit} from '@angular/core';
 import {GameService} from "../../../shared/services/game.service";
 import {ActivatedRoute} from "@angular/router";
 import {ChessBoardComponent} from "../chess-board/chess-board.component";
@@ -30,7 +30,13 @@ export class GameComponent implements OnInit, AfterViewInit {
   authService = inject(AuthService);
   id: string = '';
   board: Observable<Board> = new Subject<Board>();
-  color!: Color;
+  player: Player = {
+    gameId: '',
+    userId: "",
+    color: Color.White
+  };
+  protected readonly GameMode = GameMode;
+
 
   constructor(private activatedRoute: ActivatedRoute) {
     this.board = this.activatedRoute.paramMap
@@ -39,14 +45,20 @@ export class GameComponent implements OnInit, AfterViewInit {
           this.id = params.get('id') as string;
           this.gameService.tryLoadGame(this.id).subscribe(res => {
             let userId = this.authService.getCurrentUser().id;
-            let player = res.players.find(p => p.userId == userId);
-            this.color = player?.color ?? Color.White;
-            console.log(this.color);
+            this.player = res.players.find(p => p.userId == userId) as Player;
+            console.log(this.player)
           })
           return this.gameService.tryLoadBoard(this.id);
         })
       );
   }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnload(): void {
+    console.log('Unloading');
+    this.hubService.sendMethod(SocketConstants.LEAVE_GAME, {...this.player}).finally();
+  }
+
 
   ngAfterViewInit(): void {
     let player: Player = {
@@ -57,8 +69,5 @@ export class GameComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
   }
-
-  protected readonly GameMode = GameMode;
 }

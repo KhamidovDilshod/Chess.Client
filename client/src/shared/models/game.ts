@@ -20,3 +20,8 @@ export enum GameMode {
   Online,
   Offline
 }
+
+export interface GameState {
+  board: Board;
+  color: Color;
+}
