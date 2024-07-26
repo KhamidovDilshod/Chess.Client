@@ -53,6 +53,7 @@ export class ChessBoardComponent {
 
   @Input() set player(value: Player | undefined) {
     if (value) {
+      console.log(value)
       this._player = value;
     }
   }
@@ -145,8 +146,10 @@ export class ChessBoardComponent {
 
     console.log(request)
     this.hub.sendMethod<ChessBoard>(SocketConstants.MOVE, request).then(action => {
-      this._chessBoard = action;
-    })
+        console.log(action)
+        this._chessBoard = action;
+      },
+      err => console.log(err))
   }
 
   private unmarkPreviouslySelectedAndSafeSquare(): void {

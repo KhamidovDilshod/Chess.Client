@@ -20,6 +20,6 @@ export class GameService {
   }
 
   join(players: Player[]): Observable<Game> {
-    return this.httpClient.post<Game>(`${this.serverConfig.url}/game/init`, {...players})
+    return this.httpClient.post<Game>(`${this.serverConfig.url}/game/init`, {players: players})
   }
 }

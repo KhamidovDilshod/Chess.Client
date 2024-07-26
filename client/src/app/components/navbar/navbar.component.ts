@@ -51,6 +51,7 @@ export class NavbarComponent {
       color: Color.White, gameId: null, userId: this.authService.getCurrentUser().id
 
     }
+    console.log(player)
     this.gameService.join([player])
       .subscribe(res => this.router.navigate([`game/${res.id}`]).finally())
   }

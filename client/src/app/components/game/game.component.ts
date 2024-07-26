@@ -45,8 +45,8 @@ export class GameComponent implements OnInit, AfterViewInit {
           this.id = params.get('id') as string;
           this.gameService.tryLoadGame(this.id).subscribe(res => {
             let userId = this.authService.getCurrentUser().id;
+            console.log(res);
             this.player = res.players.find(p => p.userId == userId) as Player;
-            console.log(this.player)
           })
           return this.gameService.tryLoadBoard(this.id);
         })
@@ -55,7 +55,6 @@ export class GameComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:beforeunload', ['$event'])
   beforeUnload(): void {
-    console.log('Unloading');
     this.hubService.sendMethod(SocketConstants.LEAVE_GAME, {...this.player}).finally();
   }
 
