@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, inject, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, HostListener, inject, OnInit} from '@angular/core';
 import {GameService} from "../../../shared/services/game.service";
 import {ActivatedRoute} from "@angular/router";
 import {ChessBoardComponent} from "../chess-board/chess-board.component";
@@ -22,7 +22,8 @@ import {AuthService} from "../../auth/auth.service";
     NzSpinComponent
   ],
   templateUrl: './game.component.html',
-  styleUrl: './game.component.css'
+  styleUrl: './game.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameComponent implements OnInit, AfterViewInit {
   gameService = inject(GameService);

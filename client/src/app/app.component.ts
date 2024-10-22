@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
 
@@ -12,7 +12,8 @@ import {AuthService} from "./auth/auth.service";
   standalone: true,
   imports: [CommonModule, RouterOutlet, NavbarComponent, ChessBoardComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   authService = inject(AuthService);

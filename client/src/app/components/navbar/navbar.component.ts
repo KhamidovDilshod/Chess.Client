@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {SvgIconComponent} from "../../../shared/components/svg-icon/svg-icon.component";
 import {Icon} from "../../../shared/models/icon";
 import {AsyncPipe, NgIf} from "@angular/common";
@@ -26,7 +26,8 @@ import {Color} from "../../../shared/chess-logic/model";
     NzMenuDirective
   ],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
   protected readonly Icon = Icon;
