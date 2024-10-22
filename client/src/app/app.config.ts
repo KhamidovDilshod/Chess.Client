@@ -36,7 +36,7 @@ export const appConfig: ApplicationConfig = {
 };
 
 export const authConfig: AuthConfig = {
-  clientId: '1081035074588-edo27atkbl88j435pjk40vdpq6uoa60d.apps.googleusercontent.com',
+  clientId: '549704308150-33fudgiud9pb8p3b77on11s896cotou6.apps.googleusercontent.com',
   redirectUri: window.location.origin + "/game",
   scope: 'openid profile email',
   issuer: 'https://accounts.google.com',
