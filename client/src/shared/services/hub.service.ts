@@ -20,7 +20,7 @@ export class HubService {
   public startConnection() {
     retry(async () => {
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`http://localhost:5000/${SocketConstants.GAME}`)
+        .withUrl(`https://api-chess.azurewebsites.net//${SocketConstants.GAME}`)
         .build();
       await this.hubConnection.start();
       // @ts-ignore
