@@ -14,7 +14,7 @@ import {FormsModule} from '@angular/forms';
 registerLocaleData(en);
 export const serverConfig = new InjectionToken<AppConfig>('SERVER_CONFIG')
 export const ServerConfig: AppConfig = {
-  url: 'http://localhost:5000'
+  url: 'https://api-chess.scm.azurewebsites.net/'
 }
 
 export interface AppConfig {
