@@ -6,7 +6,7 @@ import {authGuard} from "./auth/auth.guard";
 import {GameComponent} from "./components/game/game.component";
 
 export const routes: Routes = [
-  // {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '', redirectTo: '/game', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {
     path: 'game',
