@@ -1,9 +1,10 @@
-import {inject, Injectable, OnInit} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {OAuthService} from "angular-oauth2-oidc";
 import {authConfig, serverConfig} from "../app.config";
 import {Router} from "@angular/router";
 import {GoogleUser, User} from "../../shared/models/user";
 import {HttpClient} from "@angular/common/http";
+import {Keys} from "../../shared/constants/keys";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import {HttpClient} from "@angular/common/http";
 export class AuthService {
   private serverConfig = inject(serverConfig);
   private httpClient = inject(HttpClient);
+  private _token: string | null = null;
 
   constructor(private oauthService: OAuthService, private router: Router) {
     this.initializeOAuth();
@@ -22,6 +24,15 @@ export class AuthService {
     })
   }
 
+  get token(): string {
+    return this._token ?? this.setToken(localStorage.getItem(Keys.TOKEN) as string);
+  }
+
+  setToken(value: string): string {
+    this._token = value;
+    return value;
+  }
+
   initializeOAuth() {
     this.oauthService.configure(authConfig);
     this.oauthService.setupAutomaticSilentRefresh();
@@ -30,7 +41,6 @@ export class AuthService {
 
   login() {
     this.oauthService.initImplicitFlow();
-
   }
 
   logout() {
@@ -41,8 +51,9 @@ export class AuthService {
 
   get identityClaims(): GoogleUser {
     let claims = this.oauthService.getIdentityClaims();
-    if (!localStorage.getItem('user'))
-      localStorage.setItem('user', JSON.stringify(claims))
+    localStorage.setItem(Keys.TOKEN, this.oauthService.getIdToken())
+    if (!localStorage.getItem(Keys.USER))
+      localStorage.setItem(Keys.USER, JSON.stringify(claims))
     return {
       email: claims?.['email'],
       email_verified: claims?.['email_verified'],
@@ -64,12 +75,12 @@ export class AuthService {
     }
     this.httpClient.post(`${this.serverConfig.url}/users`, newUser).subscribe(res => {
       this.router.navigate(['game']);
-      localStorage.setItem('user', JSON.stringify(res))
+      localStorage.setItem(Keys.USER, JSON.stringify(res))
     })
   }
 
   public getCurrentUser(): User {
-    return JSON.parse(localStorage.getItem('user')!) as User;
+    return JSON.parse(localStorage.getItem(Keys.USER)!) as User;
   }
 
 }

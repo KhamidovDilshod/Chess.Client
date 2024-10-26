@@ -2,19 +2,21 @@ import {ApplicationConfig, importProvidersFrom, InjectionToken} from '@angular/c
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
-import {provideHttpClient} from "@angular/common/http";
-import {AuthConfig, OAuthModule, OAuthService, provideOAuthClient} from "angular-oauth2-oidc";
+import {provideHttpClient, withInterceptors} from "@angular/common/http";
+import {AuthConfig, provideOAuthClient} from "angular-oauth2-oidc";
 import {AuthService} from "./auth/auth.service";
 import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
 import {en_US, provideNzI18n} from 'ng-zorro-antd/i18n';
 import {registerLocaleData} from '@angular/common';
 import en from '@angular/common/locales/en';
 import {FormsModule} from '@angular/forms';
+import {authInterceptor} from "./auth/auth.interceptor";
 
 registerLocaleData(en);
 export const serverConfig = new InjectionToken<AppConfig>('SERVER_CONFIG')
 export const ServerConfig: AppConfig = {
-  url: 'https://api-chess.scm.azurewebsites.net/'
+  url: 'http://localhost:5000'
+  // url: 'https://api-chess.scm.azurewebsites.net'
 }
 
 export interface AppConfig {
@@ -24,7 +26,7 @@ export interface AppConfig {
 export const appConfig: ApplicationConfig = {
   providers: [
     AuthService,
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideRouter(routes),
     provideOAuthClient(),
     provideNzI18n(en_US),
