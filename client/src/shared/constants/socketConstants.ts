@@ -1,8 +1,14 @@
 export class SocketConstants {
-  public static HUB = 'hub';
-  public static GAME = 'game';
-  public static CREATE_GAME = 'CreateGame';
-  public static JOIN_GAME = 'JoinGame';
-  public static LEAVE_GAME = 'LeaveGame';
-  public static MOVE = 'Move';
+  static HUB: string = 'hub';
+  static GAME: string = 'game';
+
+  static CREATE_GAME: string = 'CreateGame';
+  static JOIN_GAME: string = 'JoinGame';
+  static LEAVE_GAME: string = 'LeaveGame';
+  static MOVE: string = 'Move';
+  static NOTIFICATION: string = 'Notification';
+
+  static MOVED: string = 'Moved';
+  static JOINED: string = 'Joined';
+
 }

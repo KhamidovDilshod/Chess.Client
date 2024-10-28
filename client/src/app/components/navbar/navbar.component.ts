@@ -11,6 +11,8 @@ import {GameService} from "../../../shared/services/game.service";
 import {Router} from "@angular/router";
 import {Player} from "../../../shared/models/game";
 import {Color} from "../../../shared/chess-logic/model";
+import {HubService} from "../../../shared/services/hub.service";
+import {HubConnectionState} from "@microsoft/signalr";
 
 @Component({
   selector: 'app-navbar',
@@ -35,14 +37,14 @@ export class NavbarComponent {
   gameService = inject(GameService);
   authService = inject(AuthService);
   router = inject(Router);
+  hubService = inject(HubService);
 
   constructor() {
-    // this.hubService.getConnectionState$()
-    //   .subscribe(state => {
-    //     this.isOnline = state == HubConnectionState.Connected
-    //     console.log(state);
-    //   }
-    // )
+    this.hubService.getConnectionState$()
+      .subscribe(state => {
+          this.isOnline = state == HubConnectionState.Connected
+        }
+      )
   }
 
   protected readonly authConfig = authConfig;
@@ -52,8 +54,7 @@ export class NavbarComponent {
       color: Color.White, gameId: null, userId: this.authService.getCurrentUser().id
 
     }
-    console.log(player)
     this.gameService.join([player])
-      .subscribe(res => this.router.navigate([`game/${res.id}`]).finally())
+      .subscribe(res => this.router.navigate([`game/${res.id}`]).then(_ => window.location.reload()))
   }
 }

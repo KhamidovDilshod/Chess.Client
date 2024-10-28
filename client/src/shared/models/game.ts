@@ -25,3 +25,11 @@ export interface GameState {
   board: Board;
   color: Color;
 }
+
+export interface Move {
+  id: string,
+  gameId: string,
+  userId: string,
+  number: number,
+  notation: string
+}

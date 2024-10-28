@@ -16,6 +16,10 @@
   transform: rotate(180deg);
 }
 
+.rotated .square {
+  transform: rotate(180deg); /* Revert piece rotation to normal */
+}
+
 .row {
   display: flex;
   flex-direction: row;

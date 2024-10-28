@@ -15,7 +15,7 @@ import {authInterceptor} from "./auth/auth.interceptor";
 registerLocaleData(en);
 export const serverConfig = new InjectionToken<AppConfig>('SERVER_CONFIG')
 export const ServerConfig: AppConfig = {
-  url: 'https://api-chess.scm.azurewebsites.net'
+  url: 'http://localhost:5000'
   // url: 'https://api-chess.scm.azurewebsites.net'
 }
 

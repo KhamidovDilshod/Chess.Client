@@ -27,10 +27,6 @@ export class HubService {
       await this.hubConnection.start();
       // @ts-ignore
     }).then(r => this.updateConnectionState(this.hubConnection.state));
-
-    this.hubConnection?.on(SocketConstants.JOIN_GAME, (game: Game) => {
-      console.log('Received game state:', game);
-    });
   }
 
 

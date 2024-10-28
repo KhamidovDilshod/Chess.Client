@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {ChessBoard} from "../../../shared/chess-logic/chess-board";
 import {
   CheckState,
@@ -16,6 +16,7 @@ import {GameMode, Player} from "../../../shared/models/game";
 import {NzSpinComponent} from "ng-zorro-antd/spin";
 import {HubService} from "../../../shared/services/hub.service";
 import {SocketConstants} from "../../../shared/constants/socketConstants";
+import {PlayerService} from "../../../shared/services/player.service";
 
 @Component({
   selector: 'chess-board',
@@ -32,7 +33,7 @@ import {SocketConstants} from "../../../shared/constants/socketConstants";
   styleUrl: './chess-board.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChessBoardComponent {
+export class ChessBoardComponent implements OnInit {
   private _chessBoard!: ChessBoard;
   private _mode: GameMode | null = null;
   public pieceImagePaths = pieceImagePaths;
@@ -41,26 +42,28 @@ export class ChessBoardComponent {
   private lastMove: LastMove | undefined;
   private checkState!: CheckState;
   isReady: boolean = false;
-  private hub = inject(HubService);
   _player!: Player;
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, private hub: HubService, private playerService: PlayerService) {
+    this.hub.connectMethod<ChessBoard>(SocketConstants.MOVED)
+      .subscribe(res => {
+        if (res) {
+          this._chessBoard = res;
+        }
+      })
+  }
+
+  ngOnInit(): void {
   }
 
   @Input() set mode(value: GameMode) {
     this._mode = value;
   }
 
-  @Input() set player(value: Player | undefined) {
-    if (value) {
-      console.log(value)
-      this._player = value;
-    }
-  }
-
   @Input() set state(value: any) {
     if (this._mode != null) {
-      this._chessBoard = new ChessBoard(this._mode, this.player?.color ?? Color.White, value);
+      console.log(this.playerService.getCurrentPlayer())
+      this._chessBoard = new ChessBoard(this._mode, this.playerService.getCurrentPlayer()?.color ?? Color.White, value);
       this.cdr.detectChanges();
       this.isReady = true;
       this.checkState = this._chessBoard.checkState;
@@ -120,7 +123,7 @@ export class ChessBoardComponent {
 
     this.selectedSquare = {piece, x, y};
     this.pieceSafeSquares = this.safeSquares.get(x + ',' + y) || [];
-    this.cdr.detectChanges(); // Manually trigger change detection
+    this.cdr.detectChanges();
   }
 
   public move(x: number, y: number) {
@@ -139,22 +142,19 @@ export class ChessBoardComponent {
 
     const {x: prevX, y: prevY} = this.selectedSquare;
     this._chessBoard.move(prevX, prevY, newX, newY);
-    this.cdr.detectChanges(); // Manually trigger change detection
+    this.cdr.detectChanges();
     this.unmarkPreviouslySelectedAndSafeSquare();
 
-    const request = {player: {...this._player}, prevX, prevY, newX, newY}
+    const request = {player: {...this.playerService.getCurrentPlayer()}, prevX, prevY, newX, newY}
 
-    console.log(request)
-    this.hub.sendMethod<ChessBoard>(SocketConstants.MOVE, request).then(action => {
-        console.log(action)
-        this._chessBoard = action;
-      },
-      err => console.log(err))
+    this.hub.sendMethod<ChessBoard>(SocketConstants.MOVE, request).finally();
   }
 
   private unmarkPreviouslySelectedAndSafeSquare(): void {
     this.selectedSquare = {piece: null};
     this.pieceSafeSquares = [];
-    this.cdr.detectChanges(); // Manually trigger change detection
+    this.cdr.detectChanges();
   }
+
+  protected readonly Color = Color;
 }

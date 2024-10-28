@@ -5,22 +5,22 @@
         <div
           *ngFor="let piece of row; let y = index" class="square"
           [ngClass]="{
-                'dark':isSquareDark(x,y),
-                'light':!isSquareDark(x,y),
-                'selected-square':isSquareSelected(x,y),
-                'last-move':isSquareLastMove(x,y),
-                'king-in-check':isSquareChecked(x,y)
-                }"
-          (click)="move(x,y)"
+            'dark': isSquareDark(x, y),
+            'light': !isSquareDark(x, y),
+            'selected-square': isSquareSelected(x, y),
+            'last-move': isSquareLastMove(x, y),
+            'king-in-check': isSquareChecked(x, y)
+          }"
+          (click)="move(x, y)"
         >
-          <div [ngClass]="{'safe-square':isSquareSafeForSelectedPiece(x,y)}"></div>
+          <div [ngClass]="{'safe-square': isSquareSafeForSelectedPiece(x, y)}"></div>
           <img *ngIf="piece" [src]="pieceImagePaths[piece]" [alt]="piece" class="piece">
         </div>
       </div>
     </div>
+
     <div class="attacked">
-      <div *ngFor="let piece of attackedPieces " class="square"
-      >
+      <div *ngFor="let piece of attackedPieces" class="square">
         <img *ngIf="piece" [src]="pieceImagePaths[piece.FENChar]" [alt]="piece" class="piece">
       </div>
     </div>

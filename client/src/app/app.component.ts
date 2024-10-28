@@ -6,6 +6,7 @@ import {HubService} from "../shared/services/hub.service";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {ChessBoardComponent} from "./components/chess-board/chess-board.component";
 import {AuthService} from "./auth/auth.service";
+import {SocketConstants} from "../shared/constants/socketConstants";
 
 @Component({
   selector: 'app-root',
@@ -16,10 +17,8 @@ import {AuthService} from "./auth/auth.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  authService = inject(AuthService);
-
   constructor(public hubService: HubService) {
     this.hubService.startConnection();
-    this.hubService.connectMethod("notification").subscribe()
+    this.hubService.connectMethod(SocketConstants.NOTIFICATION).subscribe()
   }
 }
