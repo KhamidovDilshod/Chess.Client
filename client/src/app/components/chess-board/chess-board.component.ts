@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ChessBoard} from "../../../shared/chess-logic/chess-board";
 import {
   CheckState,
@@ -17,6 +17,7 @@ import {NzSpinComponent} from "ng-zorro-antd/spin";
 import {HubService} from "../../../shared/services/hub.service";
 import {SocketConstants} from "../../../shared/constants/socketConstants";
 import {PlayerService} from "../../../shared/services/player.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'chess-board',
@@ -33,7 +34,8 @@ import {PlayerService} from "../../../shared/services/player.service";
   styleUrl: './chess-board.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChessBoardComponent implements OnInit {
+
+export class ChessBoardComponent implements OnInit, OnDestroy {
   private _chessBoard!: ChessBoard;
   private _mode: GameMode | null = null;
   public pieceImagePaths = pieceImagePaths;
@@ -43,12 +45,13 @@ export class ChessBoardComponent implements OnInit {
   private checkState!: CheckState;
   isReady: boolean = false;
   _player!: Player;
+  private connection$: Subscription | undefined = undefined;
 
   constructor(private cdr: ChangeDetectorRef, private hub: HubService, private playerService: PlayerService) {
-    this.hub.connectMethod<ChessBoard>(SocketConstants.MOVED)
+    this.connection$ = this.hub.connectMethod<(FENChar | null)[][]>(SocketConstants.MOVED)
       .subscribe(res => {
         if (res) {
-          this._chessBoard = res;
+          this._chessBoard.reload(res);
         }
       })
   }
@@ -62,7 +65,6 @@ export class ChessBoardComponent implements OnInit {
 
   @Input() set state(value: any) {
     if (this._mode != null) {
-      console.log(this.playerService.getCurrentPlayer())
       this._chessBoard = new ChessBoard(this._mode, this.playerService.getCurrentPlayer()?.color ?? Color.White, value);
       this.cdr.detectChanges();
       this.isReady = true;
@@ -129,11 +131,12 @@ export class ChessBoardComponent implements OnInit {
   public move(x: number, y: number) {
     this.selectingPiece(x, y);
     this.placingPiece(x, y);
+    this.cdr.detectChanges();
   }
 
   private isWrongPieceSelected(piece: FENChar): boolean {
     const isWhitePieceSelected: boolean = piece === piece.toUpperCase();
-    return isWhitePieceSelected && this.playerColor == Color.Nigga || !isWhitePieceSelected && this.playerColor == Color.White;
+    return isWhitePieceSelected && this.playerColor == Color.Black || !isWhitePieceSelected && this.playerColor == Color.White;
   }
 
   private placingPiece(newX: number, newY: number): void {
@@ -157,4 +160,16 @@ export class ChessBoardComponent implements OnInit {
   }
 
   protected readonly Color = Color;
+
+  trackByRow(index: number, item: (FENChar | null)[]): number {
+    return index;
+  }
+
+  trackByPiece(index: number, item: FENChar | null): number {
+    return index
+  }
+
+  ngOnDestroy(): void {
+    // this.connection$?.unsubscribe();
+  }
 }
