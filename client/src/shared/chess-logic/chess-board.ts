@@ -7,10 +7,6 @@ import {King} from "./pieces/king";
 import {GameMode} from "../models/game";
 import {loadBoard, loadChessBoard} from "../utils";
 
-/**
- * Class represents board state
- */
-
 export class ChessBoard {
   protected chessBoard!: (Piece | null)[][];
   private _playerColor!: Color;
@@ -25,26 +21,25 @@ export class ChessBoard {
   }
 
   private initialize(mode: GameMode = GameMode.Offline, color: Color, boardView: (FENChar | null)[][] = []): void {
+    if (boardView.length < 8) throw new Error("Failed to convert fenChar to view")
     this._playerColor = color;
     this.chessBoard = loadBoard(mode, boardView)
     this._safeSquares = this.findSafeSquare();
   }
 
-  /**
-   * Returns player color of board
-   */
+
   public get playerColor(): Color {
     return this._playerColor;
   }
 
   public reload(view: (FENChar | null)[][]): void {
+    console.log(view)
     this.chessBoard = loadChessBoard(view);
-    this._safeSquares = this.findSafeSquare();
+    console.log(this.chessBoard)
+    // this._safeSquares = this.findSafeSquare();
+    console.log(this._safeSquares)
   }
 
-  /**
-   * 2D structure of board view
-   */
   public get chessBoardView(): (FENChar | null)[][] {
     return this.chessBoard.map(row =>
       row.map(piece => piece instanceof Piece ? piece?.FENChar : null)

@@ -53,9 +53,7 @@ export class GameComponent implements OnInit, AfterViewInit {
             catchError(() => of({} as Board)));
       })
     );
-    this.hubService.connectMethod(SocketConstants.JOINED).subscribe(res => {
-      console.log(res);
-    })
+    this.hubService.connectMethod(SocketConstants.JOINED).subscribe();
   }
 
   private setPlayerFromGame(game: any): void {
