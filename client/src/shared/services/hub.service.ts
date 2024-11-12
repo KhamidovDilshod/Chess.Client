@@ -1,10 +1,9 @@
-import {inject, Inject, Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import * as signalR from "@microsoft/signalr"
 import {HubConnectionState} from "@microsoft/signalr"
 import {Observable, Subject} from "rxjs";
 import {retry} from "../utils";
 import {SocketConstants} from "../constants/socketConstants";
-import {Game} from "../models/game";
 import {AppConfig, serverConfig} from "../../app/app.config";
 
 @Injectable({
@@ -22,7 +21,10 @@ export class HubService {
   public startConnection() {
     retry(async () => {
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`${this.serverConfig.url}/${SocketConstants.GAME}`)
+        .withUrl(`${this.serverConfig.url}/${SocketConstants.GAME}`, {
+          skipNegotiation: true,
+          transport: signalR.HttpTransportType.WebSockets
+        })
         .build();
       await this.hubConnection.start();
       // @ts-ignore

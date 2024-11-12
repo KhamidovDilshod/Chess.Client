@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  ApplicationRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {ChessBoard} from "../../../shared/chess-logic/chess-board";
 import {
   CheckState,
@@ -32,10 +41,10 @@ import {Subscription} from "rxjs";
   ],
   templateUrl: './chess-board.component.html',
   styleUrl: './chess-board.component.css',
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ChessBoardComponent implements OnInit, OnDestroy {
+export class ChessBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   private _chessBoard!: ChessBoard;
   private _mode: GameMode | undefined;
   public pieceImagePaths = pieceImagePaths;
@@ -46,17 +55,19 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
   isReady: boolean = false;
   private connection$: Subscription | undefined = undefined;
 
-  constructor(private cdr:ChangeDetectorRef,private hub: HubService, private playerService: PlayerService) {
+  constructor(private cdr: ChangeDetectorRef, private hub: HubService, private playerService: PlayerService, private appRef: ApplicationRef) {
+
+  }
+
+  ngAfterViewInit(): void {
     this.connection$ = this.hub.connectMethod<Moved>(SocketConstants.MOVED)
       .subscribe(res => {
         if (res) {
           console.log(res);
-          this._chessBoard.move(res.prevX,res.prevY,res.newX,res.newY);
-          console.log(this.chessBoardView);
-          this.cdr.detectChanges();
+          this.move(res.newX, res.newY);
+          this.appRef.tick()
         }
-      })
-  }
+      })    }
 
   ngOnInit(): void {
   }
