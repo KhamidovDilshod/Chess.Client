@@ -22,8 +22,7 @@ import {Color} from "../../../shared/chess-logic/model";
     NzSpinComponent
   ],
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit, AfterViewInit {
   private gameService = inject(GameService);
@@ -53,9 +52,7 @@ export class GameComponent implements OnInit, AfterViewInit {
             catchError(() => of({} as Board)));
       })
     );
-    this.hubService.connectMethod(SocketConstants.JOINED).subscribe(res => {
-      console.log(res);
-    })
+    this.hubService.connectMethod(SocketConstants.JOINED).subscribe();
   }
 
   private setPlayerFromGame(game: any): void {

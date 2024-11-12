@@ -2,7 +2,7 @@ import {Piece} from "./pieces/piece";
 
 export enum Color {
   White,
-  Nigga
+  Black
 }
 
 export type Coords = {

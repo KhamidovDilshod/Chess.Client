@@ -2,30 +2,42 @@ import {Piece} from "./pieces/piece";
 import {CheckState, Color, Coords, FENChar, LastMove, SafeSquares} from "./model";
 import {Rook} from "./pieces/rook";
 import {Knight} from "./pieces/knight";
-import {Bishop} from "./pieces/bishop";
-import {Queen} from "./pieces/queen";
 import {Pawn} from "./pieces/pawn";
 import {King} from "./pieces/king";
 import {GameMode} from "../models/game";
-import {loadBoard} from "../utils";
+import {loadBoard, loadChessBoard} from "../utils";
 
 export class ChessBoard {
-  protected chessBoard: (Piece | null)[][];
-  private _playerColor;
+  protected chessBoard!: (Piece | null)[][];
+  private _playerColor!: Color;
   private readonly chessBoardSize: number = 8;
-  private _safeSquares: SafeSquares;
+  private _safeSquares!: SafeSquares;
   private _lastMove: LastMove | undefined;
   private _checkState: CheckState = {isInCheck: false}
   private _attackedPieces: Piece[] = []
 
   constructor(mode: GameMode = GameMode.Offline, color: Color, boardView: (FENChar | null)[][] = []) {
+    this.initialize(mode, color, boardView);
+  }
+
+  private initialize(mode: GameMode = GameMode.Offline, color: Color, boardView: (FENChar | null)[][] = []): void {
+    if (boardView.length < 8) throw new Error("Failed to convert fenChar to view")
     this._playerColor = color;
     this.chessBoard = loadBoard(mode, boardView)
     this._safeSquares = this.findSafeSquare();
   }
 
+
   public get playerColor(): Color {
     return this._playerColor;
+  }
+
+  public reload(view: (FENChar | null)[][]): void {
+    console.log(view)
+    this.chessBoard = loadChessBoard(view);
+    console.log(this.chessBoard)
+    // this._safeSquares = this.findSafeSquare();
+    console.log(this._safeSquares)
   }
 
   public get chessBoardView(): (FENChar | null)[][] {
@@ -202,7 +214,7 @@ export class ChessBoard {
     this.chessBoard[newX][newY] = piece;
     this._lastMove = {prevX, prevY, currX: newX, currY: newY, piece};
 
-    this._playerColor = this._playerColor == Color.White ? Color.Nigga : Color.White;
+    this._playerColor = this._playerColor == Color.White ? Color.Black : Color.White;
     this.isInCheck(this._playerColor, true);
     this._safeSquares = this.findSafeSquare();
 

@@ -33,3 +33,11 @@ export interface Move {
   number: number,
   notation: string
 }
+
+export interface Moved {
+  player: Player | null,
+  prevX: number,
+  prevY: number,
+  newX: number,
+  newY: number
+}

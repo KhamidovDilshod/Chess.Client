@@ -36,7 +36,7 @@ export function loadBoard(mode: GameMode, boardView: (FENChar | null)[][] = []):
   }
 }
 
-function loadChessBoard(view: (FENChar | null)[][]): any {
+export function loadChessBoard(view: (FENChar | null)[][]): any {
   let result: (Piece | null)[][] = [];
   for (let i = 0; i < view.length; i++) {
     result.push([]);
@@ -63,12 +63,12 @@ const blankBoard = [
   [null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null, null],
   [
-    new Pawn(Color.Nigga), new Pawn(Color.Nigga), new Pawn(Color.Nigga), new Pawn(Color.Nigga),
-    new Pawn(Color.Nigga), new Pawn(Color.Nigga), new Pawn(Color.Nigga), new Pawn(Color.Nigga)
+    new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black),
+    new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black)
   ],
   [
-    new Rook(Color.Nigga), new Knight(Color.Nigga), new Bishop(Color.Nigga), new Queen(Color.Nigga),
-    new King(Color.Nigga), new Bishop(Color.Nigga), new Knight(Color.Nigga), new Rook(Color.Nigga)
+    new Rook(Color.Black), new Knight(Color.Black), new Bishop(Color.Black), new Queen(Color.Black),
+    new King(Color.Black), new Bishop(Color.Black), new Knight(Color.Black), new Rook(Color.Black)
   ],
 ];
 
@@ -87,17 +87,17 @@ function charToPiece(char: FENChar | null): Piece | null {
     case FENChar.WhitePawn:
       return new Pawn(Color.White);
     case FENChar.NiggaRook :
-      return new Rook(Color.Nigga)
+      return new Rook(Color.Black)
     case FENChar.NiggaKnight:
-      return new Knight(Color.Nigga);
+      return new Knight(Color.Black);
     case FENChar.NiggaBishop :
-      return new Bishop(Color.Nigga);
+      return new Bishop(Color.Black);
     case FENChar.NiggaQueen:
-      return new Queen(Color.Nigga);
+      return new Queen(Color.Black);
     case FENChar.NiggaKing:
-      return new King(Color.Nigga);
+      return new King(Color.Black);
     case FENChar.NiggaPawn:
-      return new Pawn(Color.Nigga)
+      return new Pawn(Color.Black)
     default:
       return null;
   }

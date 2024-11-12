@@ -1,9 +1,9 @@
 <ng-container *ngIf="isReady">
   <div class="board">
     <div class="chess-board">
-      <div *ngFor="let row of chessBoardView; let x = index" class="row">
+      <div *ngFor="let row of chessBoardView; let x = index; trackBy: trackByRow" class="row">
         <div
-          *ngFor="let piece of row; let y = index" class="square"
+          *ngFor="let piece of row; let y = index  trackBy: trackByPiece" class="square"
           [ngClass]="{
             'dark': isSquareDark(x, y),
             'light': !isSquareDark(x, y),

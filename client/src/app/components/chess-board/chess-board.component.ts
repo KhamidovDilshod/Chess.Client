@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  ApplicationRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {ChessBoard} from "../../../shared/chess-logic/chess-board";
 import {
   CheckState,
@@ -12,11 +21,12 @@ import {
 } from "../../../shared/chess-logic/model";
 import {JsonPipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Piece} from "../../../shared/chess-logic/pieces/piece";
-import {GameMode, Player} from "../../../shared/models/game";
+import {GameMode, Moved} from "../../../shared/models/game";
 import {NzSpinComponent} from "ng-zorro-antd/spin";
 import {HubService} from "../../../shared/services/hub.service";
 import {SocketConstants} from "../../../shared/constants/socketConstants";
 import {PlayerService} from "../../../shared/services/player.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'chess-board',
@@ -33,25 +43,31 @@ import {PlayerService} from "../../../shared/services/player.service";
   styleUrl: './chess-board.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChessBoardComponent implements OnInit {
+
+export class ChessBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   private _chessBoard!: ChessBoard;
-  private _mode: GameMode | null = null;
+  private _mode: GameMode | undefined;
   public pieceImagePaths = pieceImagePaths;
   private selectedSquare: SelectedSquare = {piece: null};
   private pieceSafeSquares: Coords[] = [];
   private lastMove: LastMove | undefined;
   private checkState!: CheckState;
   isReady: boolean = false;
-  _player!: Player;
+  private connection$: Subscription | undefined = undefined;
 
-  constructor(private cdr: ChangeDetectorRef, private hub: HubService, private playerService: PlayerService) {
-    this.hub.connectMethod<ChessBoard>(SocketConstants.MOVED)
+  constructor(private cdr: ChangeDetectorRef, private hub: HubService, private playerService: PlayerService, private appRef: ApplicationRef) {
+
+  }
+
+  ngAfterViewInit(): void {
+    this.connection$ = this.hub.connectMethod<Moved>(SocketConstants.MOVED)
       .subscribe(res => {
         if (res) {
-          this._chessBoard = res;
+          console.log(res);
+          this.move(res.newX, res.newY);
+          this.appRef.tick()
         }
-      })
-  }
+      })    }
 
   ngOnInit(): void {
   }
@@ -62,9 +78,7 @@ export class ChessBoardComponent implements OnInit {
 
   @Input() set state(value: any) {
     if (this._mode != null) {
-      console.log(this.playerService.getCurrentPlayer())
       this._chessBoard = new ChessBoard(this._mode, this.playerService.getCurrentPlayer()?.color ?? Color.White, value);
-      this.cdr.detectChanges();
       this.isReady = true;
       this.checkState = this._chessBoard.checkState;
     } else {
@@ -112,18 +126,32 @@ export class ChessBoardComponent implements OnInit {
   }
 
   public selectingPiece(x: number, y: number): void {
-    const piece: FENChar | null = this.chessBoardView[x][y];
-    if (!piece) return;
-    if (this.isWrongPieceSelected(piece)) return;
+    const piece = this.chessBoardView[x][y];
+    if (!piece || this.isWrongPieceSelected(piece)) return;
+    if (this.isSameSquareClicked(x, y)) {
+      this.resetSelection();
+      return;
+    }
 
-    const isSameSquaresClicked: boolean = !!this.selectedSquare.piece &&
-      this.selectedSquare.x == x && this.selectedSquare.y == y;
-    this.unmarkPreviouslySelectedAndSafeSquare();
-    if (isSameSquaresClicked) return;
+    this.updateSelection(piece, x, y);
+    this.highlightSafeSquares(x, y);
+  }
 
+  private isSameSquareClicked(x: number, y: number): boolean | null {
+    return this.selectedSquare.piece && this.selectedSquare.x === x && this.selectedSquare.y === y;
+  }
+
+  private resetSelection(): void {
+    this.selectedSquare = {piece: null};
+    this.pieceSafeSquares = [];
+  }
+
+  private updateSelection(piece: FENChar, x: number, y: number): void {
     this.selectedSquare = {piece, x, y};
-    this.pieceSafeSquares = this.safeSquares.get(x + ',' + y) || [];
-    this.cdr.detectChanges();
+  }
+
+  private highlightSafeSquares(x: number, y: number): void {
+    this.pieceSafeSquares = this.safeSquares.get(`${x},${y}`) || [];
   }
 
   public move(x: number, y: number) {
@@ -133,7 +161,7 @@ export class ChessBoardComponent implements OnInit {
 
   private isWrongPieceSelected(piece: FENChar): boolean {
     const isWhitePieceSelected: boolean = piece === piece.toUpperCase();
-    return isWhitePieceSelected && this.playerColor == Color.Nigga || !isWhitePieceSelected && this.playerColor == Color.White;
+    return isWhitePieceSelected && this.playerColor == Color.Black || !isWhitePieceSelected && this.playerColor == Color.White;
   }
 
   private placingPiece(newX: number, newY: number): void {
@@ -142,10 +170,9 @@ export class ChessBoardComponent implements OnInit {
 
     const {x: prevX, y: prevY} = this.selectedSquare;
     this._chessBoard.move(prevX, prevY, newX, newY);
-    this.cdr.detectChanges();
     this.unmarkPreviouslySelectedAndSafeSquare();
 
-    const request = {player: {...this.playerService.getCurrentPlayer()}, prevX, prevY, newX, newY}
+    const request: Moved = {player: this.playerService.getCurrentPlayer(), prevX, prevY, newX, newY}
 
     this.hub.sendMethod<ChessBoard>(SocketConstants.MOVE, request).finally();
   }
@@ -153,8 +180,19 @@ export class ChessBoardComponent implements OnInit {
   private unmarkPreviouslySelectedAndSafeSquare(): void {
     this.selectedSquare = {piece: null};
     this.pieceSafeSquares = [];
-    this.cdr.detectChanges();
   }
 
   protected readonly Color = Color;
+
+  trackByRow(index: number, item: (FENChar | null)[]): number {
+    return index;
+  }
+
+  trackByPiece(index: number, item: FENChar | null): number {
+    return index
+  }
+
+  ngOnDestroy(): void {
+    this.connection$?.unsubscribe();
+  }
 }
